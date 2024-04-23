@@ -7,56 +7,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
 
 @RestController
-@RequestMapping("/bookings")
 public class BookingController {
-
+//forklar litt hva dette er
+    //Autowired er en anotation som injecter  avhengighetene automatisk, dette fjerner behovet for setter-metode og konstruktør
     @Autowired
-    private BookingRepository bookingRepository;
+    BookingRepository rep;
 
-    @PostMapping
-    public ResponseEntity<Booking> createBooking(@RequestBody @Valid Booking booking) {
-        Booking savedBooking = bookingRepository.save(booking);
-        return ResponseEntity.ok(savedBooking);
+    @PostMapping("/lagre")
+    public void Lagre(Booking booking) {
+        rep.lagreBookinger(booking);
     }
 
-
-    @GetMapping
-    public List<Booking> getAllBookings() {
-        return bookingRepository.findAll();  // Endret til findAll, som er en standard JPA-repository metode
+    @GetMapping("/hentalle")
+    public List<Booking> hentalle() {
+        return rep.hentAlleBookinger();
     }
 
-    @GetMapping("/{id}")
-    public Booking getBookingById(@PathVariable Integer id) {
-        return bookingRepository.findById(id).orElse(null);  // Endret til findById med korrekt håndtering av Optional
+    @GetMapping("/hentEnBooking")
+    public Booking hentEnBooking(Integer id){
+        return rep.hentEnBooking(id);
     }
 
-    @PutMapping("/{id}")
-    public Booking updateBooking(@PathVariable Integer id, @RequestBody Booking booking) {
-        return bookingRepository.findById(id)
-                .map(existingBooking -> {
-                    existingBooking.setFilm(booking.getFilm());
-                    existingBooking.setAntall(booking.getAntall());
-                    existingBooking.setFornavn(booking.getFornavn());
-                    existingBooking.setEtternavn(booking.getEtternavn());
-                    existingBooking.setTelefon(booking.getTelefon());
-                    existingBooking.setEpost(booking.getEpost());
-                    return bookingRepository.save(existingBooking);
-                }).orElseGet(() -> {
-                    booking.setId(id);
-                    return bookingRepository.save(booking);
-                });
+    @PostMapping("/endreEnBooking")
+    public void endreEnBooking(Booking booking){
+        rep.endreEnBooking(booking);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteBooking(@PathVariable Integer id) {
-        bookingRepository.deleteById(id);  // Endret til deleteById, som er en standard JPA-repository metode
+    //her får vi en slett en id fra brukeren og sletter den, med $.ajax type: "DELETE" i javascript.
+    @DeleteMapping("/slettEn")
+    public void slettEn(@RequestParam Integer id){
+        rep.slettEn(id);
     }
 
-    @DeleteMapping
-    public void deleteAllBookings() {
-        bookingRepository.deleteAll();  // Endret til deleteAll, som er en standard JPA-repository metode
+    @DeleteMapping("/slettalle")
+    public void slettalle(){
+        rep.slettAlleBookinger();
     }
+
 }

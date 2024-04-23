@@ -9,37 +9,29 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
-@Entity
-public class Booking {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//Entity annotation
+public class Booking{
+    private String film;
+    private int antall;
+    private String fornavn;
+    private String etternavn;
+    private String telefon;
+    private String epost;
     private Integer id;
 
-    @NotBlank(message = "Filmnavn kan ikke være tomt.")
-    private String film;
+    //konstruktør
+    public Booking(){}
+    public Booking(String film, int antall, String fornavn, String etternavn, String telefon, String epost, Integer id) {
+        this.film = film;
+        this.antall = antall;
+        this.fornavn = fornavn;
+        this.etternavn = etternavn;
+        this.telefon = telefon;
+        this.epost = epost;
+        this.id=id;
+    }
 
-    @Min(value = 1, message = "Antall må være minst 1.")
-    private int antall;
-
-    @NotBlank(message = "Fornavn kan ikke være tomt.")
-    @Pattern(regexp = "^[a-zA-ZæøåÆØÅ ]+$", message = "Fornavn kan bare inneholde bokstaver.")
-    private String fornavn;
-
-    @NotBlank(message = "Etternavn kan ikke være tomt.")
-    @Pattern(regexp = "^[a-zA-ZæøåÆØÅ ]+$", message = "Etternavn kan bare inneholde bokstaver.")
-    private String etternavn;
-
-    @NotBlank(message = "Telefon kan ikke være tomt.")
-    @Pattern(regexp = "^\\d{8}$", message = "Telefonnummer må inneholde 8 siffer.")
-    private String telefon;
-
-    @NotBlank(message = "E-post kan ikke være tom.")
-    @Email(message = "E-postadressen er ikke gyldig.")
-    private String epost;
-
-    // Standard getters and setters...
-
-    // Standard getters and setters...
+    //getter og setter metoden
 
     public Integer getId() {
         return id;
