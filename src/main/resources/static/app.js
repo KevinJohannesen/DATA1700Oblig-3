@@ -94,8 +94,17 @@ function endreEnBooking(object, id){
         }
 
         // Send det oppdaterte booking objektet til serveren
-        $.post("/endreEnBooking", booking, function (){
-            hentAlle();
+        $.ajax({
+            url: "/endreEnBooking",
+            type: 'POST',
+            data: JSON.stringify(booking),
+            contentType: 'application/json',
+            success: function() {
+                hentAlle();
+            },
+            error: function() {
+                console.log('Feil ved oppdatering av billett');
+            }
         });
 
         // Endre knappen tilbake til "Endre" tilstand
