@@ -31,12 +31,11 @@ public class BookingController {
     public Booking hentEnBooking(Integer id){
         return rep.hentEnBooking(id);
     }
-
+    //Vi har en @RequestBody anotation som forteller spring boot at parameteren kommer fra request body.
     @PostMapping("/endreEnBooking")
-    public void endreEnBooking(Booking booking){
+    public void endreEnBooking(@RequestBody Booking booking){
         rep.endreEnBooking(booking);
     }
-
     //her får vi en slett en id fra brukeren og sletter den, med $.ajax type: "DELETE" i javascript.
     @DeleteMapping("/slettEn")
     public void slettEn(@RequestParam Integer id){

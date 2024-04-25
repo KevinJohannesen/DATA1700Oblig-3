@@ -45,4 +45,5 @@ public class BookingRepository {
         String sql = "DELETE FROM bookings";
         jdbcTemplate.update(sql);
     }
+
 }

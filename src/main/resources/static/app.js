@@ -64,6 +64,44 @@ function registrerBillett() {
 
 }
 
+function endreEnBooking(object, id){
+    let row = object.parentNode.parentNode;
+    let cells = row.querySelectorAll("td:not(:last-child):not(:nth-last-child(2))");
+    let booking = {id: id}; // Legg til id i booking objektet
+
+    // Sjekk om knappen er i "Endre" tilstand
+    if (object.innerText === "Endre billett") {
+        // Endre cellene til input felt
+        for(let i = 0; i < cells.length; i++){
+            let input = document.createElement("input");
+            input.type = "text";
+            input.className = "form-control";
+            input.value = cells[i].innerText;
+            cells[i].innerHTML = "";
+            cells[i].appendChild(input);
+            booking[cells[i].getAttribute("data-field")] = input.value;
+        }
+
+        // Endre knappen til "Lagre" tilstand
+        object.innerText = "Lagre";
+    } else {
+        // Knappen er i "Lagre" tilstand
+        // Hent verdiene fra input feltene, oppdater booking objektet og cellene
+        for(let i = 0; i < cells.length; i++){
+            let value = cells[i].firstChild.value;
+            booking[cells[i].getAttribute("data-field")] = value;
+            cells[i].innerText = value; // Oppdater cellen til å være verdien
+        }
+
+        // Send det oppdaterte booking objektet til serveren
+        $.post("/endreEnBooking", booking, function (){
+            hentAlle();
+        });
+
+        // Endre knappen tilbake til "Endre" tilstand
+        object.innerText = "Endre billett";
+    }
+}
 //denne funksjonen gjør slik at tabellen i html blir fylt med data fra databasen og man kan slette hver enkel billett
 
 function hentAlle() {
@@ -71,13 +109,13 @@ function hentAlle() {
         let ut = "";
         for (let b of bookinger) {
             ut += "<tr>" +
-                "<td>" + b.film + "</td>" +
-                "<td>" + b.antall + "</td>" +
-                "<td>" + b.fornavn + "</td>" +
-                "<td>" + b.etternavn + "</td>" +
-                "<td>" + b.telefon + "</td>" +
-                "<td>" + b.epost + "</td>" +
-                "<td><a class='btn btn-primary' href='endre.html?id=" + b.id + "'>Endre billett</a></td>" +
+                "<td data-field='film'>" + b.film + "</td>" +
+                "<td data-field='antall'>" + b.antall + "</td>" +
+                "<td data-field='fornavn'>" + b.fornavn + "</td>" +
+                "<td data-field='etternavn'>" + b.etternavn + "</td>" +
+                "<td data-field='telefon'>" + b.telefon + "</td>" +
+                "<td data-field='epost'>" + b.epost + "</td>" +
+                "<td><a class='btn btn-primary' onclick='endreEnBooking(this," + b.id + ")'>Endre billett</a></td>" +
                 "<td><button class='btn btn-danger' onclick='slettEn(" + b.id + ")'>Slett billett</button></td>" +
                 "</tr>";
         }
@@ -143,3 +181,4 @@ $(document).ready(function() {
 
     // ... resten av ready funksjonen ...
 });
+
