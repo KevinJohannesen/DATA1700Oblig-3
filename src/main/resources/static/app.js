@@ -126,6 +126,7 @@ function slettEn(id) {
         }
     });
 };
+
 $(document).ready(function() {
     // Hent bookingen fra sessionStorage når siden lastes
     const booking = JSON.parse(sessionStorage.getItem('booking'));

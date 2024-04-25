@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Endre Booking</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="endre.js"></script>
+</head>
+<body>
+<h1>Endre Booking</h1>
+<form id="endreForm">
+  <input type="hidden" id="id">
+  <label for="film">Film:</label>
+  <input type="text" id="film">
+  <div id="errorFilm"></div>
+  <label for="seter">Antall seter:</label>
+  <input type="number" id="seter">
+  <div id="errorSeter"></div>
+  <label for="fornavn">Fornavn:</label>
+  <input type="text" id="fornavn">
+  <div id="errorFornavn"></div>
+  <label for="etternavn">Etternavn:</label>
+  <input type="text" id="etternavn">
+  <div id="errorEtternavn"></div>
+  <label for="mail">E-post:</label>
+  <input type="email" id="mail">
+  <div id="errorMail"></div>
+  <label for="tlf">Telefonnummer:</label>
+  <input type="tel" id="tlf">
+  <div id="errorTlf"></div>
+  <button type="submit" onclick="endreEnBooking()">Endre Booking</button>
+</form>
+</body>
+</html>
