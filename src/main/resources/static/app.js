@@ -1,6 +1,6 @@
 function registrerBillett() {
     $('.feil').html('');
-//kommentar til koden under: her henter jeg ut verdien fra inputfeltene og sjekker om de er tomme eller ugyldige
+//her henter jeg ut verdien fra inputfeltene og sjekker om de er tomme eller ugyldige
     const film = $("#film").val();
     const antall = parseInt($("#antall").val());
     const fornavn = $("#fornavn").val().trim();
@@ -39,7 +39,7 @@ function registrerBillett() {
     if (!valid) {
         return;
     }
-//kommentar til koden under: her lager jeg et objekt med verdiene fra inputfeltene og sender det til serveren
+// her lager jeg et objekt med verdiene fra inputfeltene og sender det til serveren
     const Booking = {
         film: $("#film").val(),
         antall: parseInt($("#antall").val()),
@@ -48,13 +48,13 @@ function registrerBillett() {
         epost: $("#epost").val().trim(),
         telefon: $("#telefon").val().trim()
     };
-
+//her sender jeg objektet til serveren og lagrer det i sessionstorage (som er en midlertidig lagring, men det funker ikke når du refresher da på du også lage ny booking for å se det som er fra før)
     $.post("/lagre", Booking, function () {
         // Lagre bookingen i sessionStorage når den er opprettet
         sessionStorage.setItem('booking', JSON.stringify(Booking));
         hentAlle();
     });
-
+//her tømmer jeg inputfeltene
     $("#film").val("");
     $("#antall").val("");
     $("#fornavn").val("");
@@ -63,7 +63,7 @@ function registrerBillett() {
     $("#telefon").val("");
 
 }
-
+//her lager jeg en funksjon som endrer en booking, den henter ut verdien fra inputfeltene og oppdaterer de i databasen ( ekstremt mye arbeid)
 function endreEnBooking(object, id){
     let row = object.parentNode.parentNode;
     let cells = row.querySelectorAll("td:not(:last-child):not(:nth-last-child(2))");
@@ -122,7 +122,8 @@ function hentAlle() {
         $("#bookinger").html(ut);
     });
 }
-function slettallebilletter(){
+//her sletter jeg alle bookinger fra databasen
+function slettAlleBookinger(){
     $.ajax({
         type: "DELETE",
         url: "/slettalle",
@@ -137,7 +138,7 @@ function slettallebilletter(){
         }
     });
 }
-
+//her formaterer jeg dataen som blir hentet fra databasen og setter det inn i en tabell
 function formaterData(bookinger){
     var ut = "<table class='table table-striped'>" +
         "<tr>" +
@@ -179,6 +180,5 @@ $(document).ready(function() {
         $("#telefon").val(booking.telefon);
     }
 
-    // ... resten av ready funksjonen ...
 });
 
