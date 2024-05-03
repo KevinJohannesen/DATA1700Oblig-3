@@ -10,3 +10,5 @@ Github brukernavn: KevinJohannesen
 Github repo URL : https://github.com/KevinJohannesen/DATA1700Oblig-3
 
 Fullt Navn : Kevin Johannesen
+
+Lenke til video : https://drive.google.com/open?id=1ccIzQx4qZQYP6ngbhfz9vGbXQ82Vn_qa
